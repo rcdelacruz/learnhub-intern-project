@@ -1,15 +1,15 @@
 # LearnHub - E-Learning Platform
 
-Welcome to LearnHub, a comprehensive e-learning platform built with Next.js 14, TypeScript, and modern development practices. This documentation will guide you through setting up, developing, and deploying the platform.
+Welcome to LearnHub, a comprehensive e-learning platform built with Next.js 14, TypeScript, Drizzle ORM, and modern development practices. This documentation will guide you through setting up, developing, and deploying the platform.
 
 ## 🚀 Project Overview
 
-LearnHub is designed as a collaborative training project for 7 interns, where each intern develops a specific module while working together on a unified platform. The project mimics real-world ERPNext development workflows and teaches modern fullstack development practices.
+LearnHub is designed as a collaborative training project for 7 interns, where each intern develops a specific module while working together on a unified platform. The project uses the latest technologies including Node.js 22 LTS and Drizzle ORM for optimal performance and developer experience.
 
 ### Key Features
 
 - **Modular Architecture**: Each intern owns a specific module (Course Management, Student Management, etc.)
-- **Modern Tech Stack**: Next.js 14, TypeScript, Prisma, PostgreSQL, Docker
+- **Modern Tech Stack**: Next.js 14, TypeScript, Drizzle ORM, PostgreSQL, Docker
 - **Production Ready**: Complete CI/CD pipeline, testing, and deployment strategies
 - **Real-time Features**: WebSocket integration for live updates and notifications
 - **Comprehensive Documentation**: Detailed guides for every aspect of development
@@ -19,7 +19,7 @@ LearnHub is designed as a collaborative training project for 7 interns, where ea
 ```mermaid
 graph TB
     A[Next.js Frontend] --> B[API Routes]
-    B --> C[Prisma ORM]
+    B --> C[Drizzle ORM]
     C --> D[PostgreSQL Database]
     B --> E[Redis Cache]
     A --> F[Real-time WebSocket]
@@ -31,7 +31,7 @@ graph TB
 
 Each module follows the same structure:
 - **API Routes**: RESTful endpoints for CRUD operations
-- **Database Models**: Prisma schema definitions
+- **Database Models**: Drizzle schema definitions with full TypeScript support
 - **UI Components**: React components for user interfaces
 - **Business Logic**: Service layer for complex operations
 - **Tests**: Unit, integration, and E2E tests
@@ -58,8 +58,9 @@ Each module follows the same structure:
 - **Forms**: React Hook Form + Zod validation
 
 ### Backend
+- **Runtime**: Node.js 22 LTS
 - **API**: Next.js Route Handlers
-- **Database**: PostgreSQL with Prisma ORM
+- **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: NextAuth.js
 - **File Storage**: UploadThing
 - **Real-time**: Socket.io
@@ -101,7 +102,9 @@ npm run dev
 
 5. **Initialize database**
 ```bash
+npm run db:generate
 npm run db:push
+npm run db:seed  # Optional: add sample data
 ```
 
 The application will be available at `http://localhost:3000`.
@@ -113,6 +116,7 @@ This documentation is organized into several sections:
 - **[Getting Started](/getting-started/installation/)**: Setup and installation guides
 - **[Git Workflow](/git-workflow/branching-strategy/)**: Development workflow and collaboration
 - **[Module Development](/module-development/structure/)**: Guidelines for building modules
+- **[Database](/database/schema/)**: Drizzle ORM schema and queries
 - **[Modules](/modules/course-management/)**: Detailed documentation for each module
 - **[API Reference](/api/authentication/)**: Complete API documentation
 - **[Deployment](/deployment/docker/)**: Production deployment guides
@@ -134,7 +138,7 @@ By the end of this project, interns will have learned:
 
 - Modern React and Next.js development
 - TypeScript for type-safe development
-- Database design and Prisma ORM
+- Database design and Drizzle ORM
 - API design and implementation
 - Authentication and authorization
 - Real-time features with WebSockets
@@ -150,7 +154,8 @@ By the end of this project, interns will have learned:
 - [GitHub Repository](https://github.com/rcdelacruz/learnhub-intern-project)
 - [Live Demo](https://learnhub-intern-project.vercel.app)
 - [API Documentation](https://learnhub-intern-project.vercel.app/api-docs)
-- [Figma Design](https://figma.com/learnhub-design)
+- [Drizzle ORM Documentation](https://orm.drizzle.team/)
+- [Next.js 14 Documentation](https://nextjs.org/docs)
 
 ## 🆘 Getting Help
 
@@ -159,6 +164,26 @@ By the end of this project, interns will have learned:
 - **GitHub Discussions**: Ask questions and share ideas
 - **Team Chat**: Use our Discord/Slack channel
 - **Code Reviews**: Learn from peer feedback
+
+## 🚀 New in This Version
+
+### Node.js 22 LTS
+- Latest stable features and performance improvements
+- Better memory management and security
+- Long-term support until 2027
+
+### Drizzle ORM
+- Full TypeScript type safety
+- Better performance than Prisma
+- SQL-like query syntax
+- Smaller bundle size
+- Superior debugging capabilities
+
+### Development Experience
+- **Drizzle Studio**: Visual database browser
+- **Better IntelliSense**: Full type safety end-to-end
+- **Faster Builds**: Optimized development workflow
+- **Modern Tooling**: Latest development practices
 
 ---
 
