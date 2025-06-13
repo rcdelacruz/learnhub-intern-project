@@ -1,21 +1,21 @@
 # Installation Guide
 
-This guide will help you set up the LearnHub development environment on your local machine.
+This guide will help you set up the LearnHub development environment on your local machine with Node.js 22 LTS and Drizzle ORM.
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js 18+** - [Download here](https://nodejs.org/)
-- **npm 8+** or **yarn** - Comes with Node.js
+- **Node.js 22+ LTS** - [Download here](https://nodejs.org/)
+- **npm 10+** or **yarn** - Comes with Node.js
 - **Git** - [Download here](https://git-scm.com/)
 - **Docker & Docker Compose** - [Download here](https://www.docker.com/get-started)
 
 ### Verify Prerequisites
 
 ```bash
-node --version  # Should be 18.0.0 or higher
-npm --version   # Should be 8.0.0 or higher
+node --version  # Should be 22.0.0 or higher
+npm --version   # Should be 10.0.0 or higher
 git --version   # Any recent version
 docker --version && docker-compose --version  # Any recent version
 ```
@@ -38,14 +38,18 @@ docker-compose up -d
 # 4. Install dependencies (if not using Docker for development)
 npm install
 
-# 5. Generate Prisma client and push database schema
+# 5. Generate Drizzle types and push database schema
 npm run db:generate
 npm run db:push
 
-# 6. Access the application
+# 6. Optional: Seed database with sample data
+npm run db:seed
+
+# 7. Access the application
 # - Application: http://localhost:3000
 # - Database: localhost:5432
 # - pgAdmin: http://localhost:5050 (admin@learnhub.com / admin)
+# - Drizzle Studio: npm run db:studio
 ```
 
 ## Manual Setup
@@ -108,16 +112,16 @@ GITHUB_CLIENT_ID="your-github-client-id"
 GITHUB_CLIENT_SECRET="your-github-client-secret"
 ```
 
-### 5. Database Initialization
+### 5. Database Initialization with Drizzle
 
 ```bash
-# Generate Prisma client
+# Generate Drizzle TypeScript types
 npm run db:generate
 
-# Push database schema
+# Push database schema to PostgreSQL
 npm run db:push
 
-# (Optional) Seed with sample data
+# Optional: Seed with sample data
 npm run db:seed
 ```
 
@@ -131,10 +135,10 @@ npm run dev
 
 ### Database Management
 
-**Prisma Studio** (Recommended):
+**Drizzle Studio** (Recommended):
 ```bash
 npm run db:studio
-# Opens at http://localhost:5555
+# Opens at http://localhost:4983
 ```
 
 **pgAdmin** (If using Docker Compose):
@@ -142,12 +146,27 @@ npm run db:studio
 - Email: admin@learnhub.com
 - Password: admin
 
-### API Testing
+### Database Commands (Drizzle ORM)
 
-Install a REST client like:
-- [Postman](https://www.postman.com/)
-- [Insomnia](https://insomnia.rest/)
-- [Thunder Client](https://www.thunderclient.com/) (VS Code extension)
+```bash
+# Generate TypeScript types from schema
+npm run db:generate
+
+# Push schema changes to database
+npm run db:push
+
+# Create and run migrations
+npm run db:migrate
+
+# Open database GUI
+npm run db:studio
+
+# Drop database (careful!)
+npm run db:drop
+
+# Seed database with sample data
+npm run db:seed
+```
 
 ### Code Editor Setup
 
@@ -156,12 +175,12 @@ Install a REST client like:
 {
   "recommendations": [
     "bradlc.vscode-tailwindcss",
-    "prisma.prisma",
     "ms-vscode.vscode-typescript-next",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-eslint",
     "formulahendry.auto-rename-tag",
-    "christian-kohler.path-intellisense"
+    "christian-kohler.path-intellisense",
+    "drizzle-team.drizzle-vscode"
   ]
 }
 ```
@@ -173,7 +192,8 @@ After setup, verify everything works:
 1. **Application loads**: Visit http://localhost:3000
 2. **Database connected**: Check console for connection messages
 3. **Hot reload works**: Edit a file and see changes
-4. **Database operations**: Try creating a user account
+4. **Database operations**: Try the seeded data or create a user account
+5. **Drizzle Studio**: Access the database GUI
 
 ## Common Issues
 
@@ -194,6 +214,18 @@ kill -9 <PID>
 1. Ensure PostgreSQL is running
 2. Check DATABASE_URL in .env.local
 3. Verify database exists and credentials are correct
+4. Try regenerating Drizzle types: `npm run db:generate`
+
+### Node.js Version Issues
+
+```bash
+# Check Node.js version
+node --version
+
+# If using nvm, switch to Node 22
+nvm install 22
+nvm use 22
+```
 
 ### Permission Issues on Windows
 
@@ -209,6 +241,18 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 2. Try restarting Docker
 3. Clear Docker cache: `docker system prune -a`
 
+### Drizzle ORM Issues
+
+```bash
+# Regenerate types if schema changes
+npm run db:generate
+
+# Reset database if needed
+npm run db:drop
+npm run db:push
+npm run db:seed
+```
+
 ## Next Steps
 
 Once your environment is set up:
@@ -216,6 +260,7 @@ Once your environment is set up:
 1. Read the [Development Setup Guide](development-setup.md)
 2. Review the [Git Workflow](../git-workflow/branching-strategy.md)
 3. Check your assigned [Module Documentation](../modules/course-management.md)
+4. Explore the [Database Schema](../database/schema.md)
 
 ## Getting Help
 
@@ -225,3 +270,30 @@ If you encounter issues:
 2. Search existing [GitHub Issues](https://github.com/rcdelacruz/learnhub-intern-project/issues)
 3. Ask in the team chat
 4. Create a new issue with detailed error information
+
+## Migration from Prisma
+
+If you're familiar with Prisma, here are the key differences with Drizzle:
+
+### Query Differences
+
+**Prisma:**
+```typescript
+const users = await prisma.user.findMany({
+  include: { studentProfile: true }
+})
+```
+
+**Drizzle:**
+```typescript
+const users = await db.query.users.findMany({
+  with: { studentProfile: true }
+})
+```
+
+### Schema Definition
+
+**Prisma:** Uses `.prisma` files with custom syntax
+**Drizzle:** Uses TypeScript files with full type safety
+
+The migration is complete, and you're now using the more performant and type-safe Drizzle ORM!
