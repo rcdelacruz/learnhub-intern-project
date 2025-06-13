@@ -1,12 +1,12 @@
 # LearnHub - E-Learning Platform
 ## 3-Month Intern Training Project
 
-A comprehensive e-learning platform built with Next.js 14, TypeScript, and modern development practices. This project serves as a training ground for 7 interns to develop full-stack skills while building a production-ready application.
+A comprehensive e-learning platform built with Next.js 14, TypeScript, Drizzle ORM, and modern development practices. This project serves as a training ground for 7 interns to develop full-stack skills while building a production-ready application.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 22+ LTS
 - Docker & Docker Compose
 - Git
 
@@ -39,8 +39,12 @@ cp .env.example .env.local
 # Start PostgreSQL (via Docker)
 docker run --name postgres -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:15
 
-# Run database migrations
+# Generate Drizzle types and setup database
+npm run db:generate
 npm run db:push
+
+# Optional: Seed with sample data
+npm run db:seed
 
 # Start development server
 npm run dev
@@ -60,10 +64,8 @@ learnhub-platform/
 │   └── shared/           # Shared business components
 ├── lib/                   # Utility libraries
 │   ├── auth.ts           # NextAuth configuration
-│   ├── db.ts             # Database connection
+│   ├── db/               # Database connection and schema
 │   └── utils.ts          # Utility functions
-├── prisma/               # Database schema and migrations
-├── public/               # Static assets
 ├── modules/              # Business logic modules
 │   ├── courses/          # Course management
 │   ├── students/         # Student management
@@ -72,6 +74,7 @@ learnhub-platform/
 │   ├── communication/    # Communication system
 │   ├── payments/         # Payment & enrollment
 │   └── analytics/        # Analytics & reporting
+├── scripts/              # Database and utility scripts
 ├── docs/                 # MkDocs documentation
 ├── docker/               # Docker configuration
 ├── .github/              # GitHub Actions workflows
@@ -92,42 +95,59 @@ Each intern will be responsible for one module:
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: Next.js 14, React 18, TypeScript
+### Frontend
+- **Framework**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, Shadcn/ui
-- **Backend**: Next.js API Routes, Prisma ORM
-- **Database**: PostgreSQL
-- **Authentication**: NextAuth.js
 - **State Management**: Zustand, React Query
+- **Forms**: React Hook Form + Zod
+
+### Backend
+- **API**: Next.js Route Handlers
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: NextAuth.js
 - **Real-time**: Socket.io
-- **Testing**: Jest, React Testing Library, Playwright
-- **Deployment**: Docker, Vercel
+- **File Storage**: UploadThing
+
+### DevOps
+- **Runtime**: Node.js 22 LTS
+- **Containerization**: Docker + Docker Compose
+- **CI/CD**: GitHub Actions
+- **Deployment**: Vercel + Railway
+- **Monitoring**: Sentry + Vercel Analytics
 - **Documentation**: MkDocs
 
 ## 🔧 Available Scripts
 
+### Development
 ```bash
-# Development
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run start        # Start production server
-
-# Database
-npm run db:push      # Push schema changes
-npm run db:studio    # Open Prisma Studio
-npm run db:migrate   # Run migrations
-npm run db:reset     # Reset database
-
-# Testing
+npm run lint         # Run ESLint
 npm run test         # Run tests
 npm run test:watch   # Run tests in watch mode
 npm run test:coverage # Run tests with coverage
+```
 
-# Docker
+### Database (Drizzle ORM)
+```bash
+npm run db:generate  # Generate TypeScript types
+npm run db:push      # Push schema to database
+npm run db:migrate   # Run migrations
+npm run db:studio    # Open Drizzle Studio (GUI)
+npm run db:drop      # Drop database
+npm run db:seed      # Seed with sample data
+```
+
+### Docker
+```bash
 npm run docker:dev   # Start with Docker Compose
 npm run docker:down  # Stop Docker services
 npm run docker:build # Build Docker image
+```
 
-# Documentation
+### Documentation
+```bash
 npm run docs:dev     # Serve documentation locally
 npm run docs:build   # Build documentation
 npm run docs:deploy  # Deploy to GitHub Pages
@@ -138,11 +158,12 @@ npm run docs:deploy  # Deploy to GitHub Pages
 Full documentation is available at: https://rcdelacruz.github.io/learnhub-intern-project
 
 ### Quick Links
-- [Getting Started](docs/getting-started.md)
-- [Git Workflow](docs/git-workflow.md)
-- [Module Development Guide](docs/module-development.md)
-- [API Documentation](docs/api-reference.md)
-- [Deployment Guide](docs/deployment.md)
+- [Getting Started](docs/getting-started/installation.md)
+- [Git Workflow](docs/git-workflow/branching-strategy.md)
+- [Module Development Guide](docs/module-development/structure.md)
+- [Database Schema](docs/database/schema.md)
+- [API Documentation](docs/api/authentication.md)
+- [Deployment Guide](docs/deployment/docker.md)
 
 ## 🌊 Git Workflow
 
@@ -150,17 +171,19 @@ We follow GitFlow with feature branches:
 
 ```bash
 # Create feature branch
+git checkout develop
+git pull origin develop
 git checkout -b feature/course-management-crud
 
 # Make changes and commit
 git add .
-git commit -m "feat: add course CRUD operations"
+git commit -m "feat(course-management): add course CRUD operations"
 
 # Push and create PR
 git push origin feature/course-management-crud
 ```
 
-See [Git Workflow Guide](docs/git-workflow.md) for detailed instructions.
+See [Git Workflow Guide](docs/git-workflow/branching-strategy.md) for detailed instructions.
 
 ## 🧪 Testing
 
@@ -170,9 +193,6 @@ npm run test
 
 # Run tests for specific module
 npm run test -- modules/courses
-
-# Run E2E tests
-npx playwright test
 
 # Test coverage
 npm run test:coverage
@@ -225,4 +245,4 @@ This project is for educational purposes only.
 
 ---
 
-**Ready to start building? Check out the [Getting Started Guide](docs/getting-started.md)!**
+**Ready to start building? Check out the [Getting Started Guide](docs/getting-started/installation.md)!**
