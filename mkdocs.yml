@@ -1,0 +1,101 @@
+site_name: LearnHub Documentation
+site_description: Complete documentation for LearnHub e-learning platform
+site_author: LearnHub Team
+site_url: https://rcdelacruz.github.io/learnhub-intern-project
+
+# Repository
+repo_name: rcdelacruz/learnhub-intern-project
+repo_url: https://github.com/rcdelacruz/learnhub-intern-project
+
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Development Setup: getting-started/development-setup.md
+    - Environment Variables: getting-started/environment-variables.md
+  - Git Workflow:
+    - Branching Strategy: git-workflow/branching-strategy.md
+    - Pull Request Process: git-workflow/pull-request-process.md
+    - Code Review Guidelines: git-workflow/code-review.md
+  - Module Development:
+    - Module Structure: module-development/structure.md
+    - API Design: module-development/api-design.md
+    - Database Design: module-development/database-design.md
+    - Testing Strategy: module-development/testing.md
+  - Modules:
+    - Course Management: modules/course-management.md
+    - Student Management: modules/student-management.md
+    - Instructor Management: modules/instructor-management.md
+    - Assessment System: modules/assessment-system.md
+    - Communication System: modules/communication-system.md
+    - Payment & Enrollment: modules/payment-enrollment.md
+    - Analytics & Reporting: modules/analytics-reporting.md
+  - API Reference:
+    - Authentication: api/authentication.md
+    - Courses: api/courses.md
+    - Users: api/users.md
+    - Assessments: api/assessments.md
+  - Deployment:
+    - Docker Setup: deployment/docker.md
+    - Production Deployment: deployment/production.md
+    - CI/CD Pipeline: deployment/cicd.md
+  - Contributing:
+    - Code Style: contributing/code-style.md
+    - Testing Guidelines: contributing/testing.md
+    - Documentation: contributing/documentation.md
+
+# Theme
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+# Plugins
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - minify:
+      minify_html: true
