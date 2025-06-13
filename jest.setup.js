@@ -43,6 +43,27 @@ jest.mock('next-auth/react', () => ({
   SessionProvider: ({ children }) => children,
 }))
 
+// Mock Drizzle database
+jest.mock('@/lib/db', () => ({
+  db: {
+    query: {
+      users: {
+        findFirst: jest.fn(),
+        findMany: jest.fn(),
+      },
+      // Add other table mocks as needed
+    },
+    select: jest.fn().mockReturnThis(),
+    from: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    insert: jest.fn().mockReturnThis(),
+    values: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
+    set: jest.fn().mockReturnThis(),
+    delete: jest.fn().mockReturnThis(),
+  },
+}))
+
 // Mock environment variables
 process.env.NEXTAUTH_SECRET = 'test-secret'
 process.env.NEXTAUTH_URL = 'http://localhost:3000'
